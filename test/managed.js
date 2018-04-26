@@ -1,7 +1,6 @@
-const Ethername = artifacts.require("./Ethername.sol")
+const Ethername = artifacts.require('./Ethername.sol')
 
 contract('Managed', (accounts) => {
-
   let ethername
 
   before(async () => {
@@ -61,11 +60,9 @@ contract('Managed', (accounts) => {
     let manager = await ethername.manager()
     assert(manager === accounts[2])
   })
-
 })
 
 contract('Managed - commission', (accounts) => {
-
   let ethername
 
   before(async () => {
@@ -73,7 +70,6 @@ contract('Managed - commission', (accounts) => {
   })
 
   describe('setCommission', () => {
-
     it('should work', async () => {
       let _res = await ethername.setCommission(9999, {
         from: accounts[0]
@@ -109,13 +105,10 @@ contract('Managed - commission', (accounts) => {
       assert.equal(_res[1].toNumber(), Math.floor(1234 * 1.9999))
       assert.equal(_res[1].toNumber(), 2467)
     })
-
   })
-
 })
 
 contract('Managed - callFor', (accounts) => {
-
   let ethername
 
   before(async () => {
@@ -123,7 +116,6 @@ contract('Managed - callFor', (accounts) => {
   })
 
   describe('self', () => {
-
     it('should work', async () => {
       let data = ethername.contract.setPrice.getData('', '1')
       await ethername.callFor(ethername.address, 0, 50000, data, {
@@ -165,7 +157,5 @@ contract('Managed - callFor', (accounts) => {
       let _res = await ethername.detailsOf('', '')
       assert.notEqual(_res[1].toString(), '2')
     })
-
   })
-
 })

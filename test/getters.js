@@ -1,7 +1,6 @@
-const Ethername = artifacts.require("./Ethername.sol")
+const Ethername = artifacts.require('./Ethername.sol')
 
 contract('Ethername Getters', (accounts) => {
-
   let ethername
   let guest = accounts[9]
   let nameProper = {
@@ -17,7 +16,6 @@ contract('Ethername Getters', (accounts) => {
     owner: accounts[3]
   }
   let validNames = [nameProper, nameNL, nameSL]
-  let nameShort = ''
   let nameInvalidNL = '123456789012345678901234567890123'
   let nameInvalidSL = 'abcdefghijklmnopqrstuvwxyzabcdefg'
   let invalidNames = [nameInvalidNL, nameInvalidSL]
@@ -34,7 +32,6 @@ contract('Ethername Getters', (accounts) => {
   })
 
   describe('nameOf', () => {
-
     it('should return proper name', async () => {
       for (let _valid of validNames) {
         let _name = await ethername.nameOf(_valid.owner)
@@ -46,11 +43,9 @@ contract('Ethername Getters', (accounts) => {
       let _name = await ethername.nameOf(guest)
       assert.equal(_name, '')
     })
-
   })
 
   describe('ownerOf', () => {
-
     it('should return proper owner', async () => {
       for (let _valid of validNames) {
         let _owner = await ethername.ownerOf(_valid.name)
@@ -63,22 +58,19 @@ contract('Ethername Getters', (accounts) => {
       assert.equal(_owner, ethername.address)
     })
 
-    it("should throw if too long", async () => {
+    it('should throw if too long', async () => {
       for (let _invalidName of invalidNames) {
         try {
           await ethername.ownerOf(_invalidName)
-          throw "Failure"
-        }
-        catch (err) {
+          throw new Error('error')
+        } catch (err) {
           assert.equal(err, 'Error: VM Exception while processing transaction: revert')
         }
       }
     })
-
   })
 
   describe('detailsOf', () => {
-
     it('should return proper owner', async () => {
       for (let _valid of validNames) {
         let _res = await ethername.detailsOf(_valid.name, 'page')
@@ -86,18 +78,17 @@ contract('Ethername Getters', (accounts) => {
       }
     })
 
-    it("should return ethername address without name", async () => {
+    it('should return ethername address without name', async () => {
       let _res = await ethername.detailsOf('', 'page')
       assert.equal(_res[0], ethername.address)
     })
 
-    it("should throw if too long", async () => {
+    it('should throw if too long', async () => {
       for (let _invalidName of invalidNames) {
         try {
           await ethername.detailsOf(_invalidName, 'page')
-          throw "Failure"
-        }
-        catch (err) {
+          throw new Error('error')
+        } catch (err) {
           assert.equal(err, 'Error: VM Exception while processing transaction: revert')
         }
       }
@@ -147,26 +138,21 @@ contract('Ethername Getters', (accounts) => {
         }
       })
 
-      it("should throw if too long", async () => {
+      it('should throw if too long', async () => {
         for (let _invalidName of invalidNames) {
           try {
             await ethername.detailsOf(name, _invalidName)
-            throw "Failure"
-          }
-          catch (err) {
+            throw new Error('error')
+          } catch (err) {
             assert.equal(err, 'Error: VM Exception while processing transaction: revert')
           }
         }
       })
-
     })
-
   })
-
 })
 
 contract('Ethername Raw Getters', (accounts) => {
-
   let ethername
   let guest = accounts[9]
   let nameProper = {
@@ -182,10 +168,8 @@ contract('Ethername Raw Getters', (accounts) => {
     owner: accounts[3]
   }
   let validNames = [nameProper, nameNL, nameSL]
-  let nameShort = ''
   let nameInvalidNL = '123456789012345678901234567890123'
   let nameInvalidSL = 'abcdefghijklmnopqrstuvwxyzabcdefg'
-  let invalidNames = [nameInvalidNL, nameInvalidSL]
 
   before(async () => {
     ethername = await Ethername.deployed()
@@ -199,7 +183,6 @@ contract('Ethername Raw Getters', (accounts) => {
   })
 
   describe('rawNameOf', () => {
-
     it('should return proper name', async () => {
       for (let _valid of validNames) {
         let _name = await ethername.rawNameOf(_valid.owner)
@@ -211,11 +194,9 @@ contract('Ethername Raw Getters', (accounts) => {
       let _name = await ethername.rawNameOf(guest)
       assert.equal(bytesToStr(_name), '')
     })
-
   })
 
   describe('rawOwnerOf', () => {
-
     it('should return proper owner', async () => {
       for (let _valid of validNames) {
         let _owner = await ethername.rawOwnerOf(strToBytes(_valid.name))
@@ -228,17 +209,15 @@ contract('Ethername Raw Getters', (accounts) => {
       assert.equal(_owner, ethername.address)
     })
 
-    it("should return auto cut if too long", async () => {
+    it('should return auto cut if too long', async () => {
       let _owner = await ethername.rawOwnerOf(strToBytes(nameInvalidNL))
       assert.equal(_owner, nameNL.owner)
       _owner = await ethername.rawOwnerOf(strToBytes(nameInvalidSL))
       assert.equal(_owner, nameSL.owner)
     })
-
   })
 
   describe('rawDetailsOf', () => {
-
     it('should return proper owner', async () => {
       for (let _valid of validNames) {
         let _res = await ethername.rawDetailsOf(strToBytes(_valid.name), strToBytes('page'))
@@ -246,12 +225,12 @@ contract('Ethername Raw Getters', (accounts) => {
       }
     })
 
-    it("should return ethername address without name", async () => {
+    it('should return ethername address without name', async () => {
       let _res = await ethername.rawDetailsOf(0, strToBytes('page'))
       assert.equal(_res[0], ethername.address)
     })
 
-    it("should return auto cut if too long", async () => {
+    it('should return auto cut if too long', async () => {
       let _res = await ethername.rawDetailsOf(strToBytes(nameInvalidNL), 0x00)
       assert.equal(_res[0], nameNL.owner)
       _res = await ethername.rawDetailsOf(strToBytes(nameInvalidSL), 0x00)
@@ -302,17 +281,14 @@ contract('Ethername Raw Getters', (accounts) => {
         }
       })
 
-      it("should return auto cut if too long", async () => {
+      it('should return auto cut if too long', async () => {
         let _res = await ethername.rawDetailsOf(strToBytes(name), strToBytes(nameInvalidNL))
         assert.equal(_res[2], '0x03')
         _res = await ethername.rawDetailsOf(strToBytes(name), strToBytes(nameInvalidSL))
         assert.equal(_res[2], '0x04')
       })
-
     })
-
   })
-
 })
 
 function bytesToStr (_bytes) {

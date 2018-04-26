@@ -8,11 +8,23 @@
     "test": "test"
   },
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test && npm run lint",
+    "watch": "npm-watch",
+    "lint": "eslint --ext .js test migrations truffle.js"
+  },
+  "watch": {
+    "test": {
+      "patterns": [
+        "test",
+        "contracts",
+        "migrations"
+      ],
+      "extensions": "js,sol"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cancue/ethername-contract.git"
+    "url": "git+https://github.com/cancue/ethername.git"
   },
   "keywords": [
     "ethereum",
@@ -22,7 +34,16 @@
   "author": "M.H. Kang",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/cancue/ethername-contract/issues"
+    "url": "https://github.com/cancue/ethername/issues"
   },
-  "homepage": "https://github.com/cancue/ethername-contract#readme"
+  "homepage": "https://github.com/cancue/ethername#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "npm-watch": "^0.3.0"
+  }
 }

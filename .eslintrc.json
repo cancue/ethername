@@ -1,0 +1,20 @@
+{
+  "extends": "standard",
+  "rules": {
+    "no-control-regex": 0
+  },
+  "globals": {
+    "artifacts": true,
+    "web3": true,
+    "contract": true,
+    "assert": true,
+    "describe": true,
+    "context": true,
+    "before": true,
+    "beforeEach": true,
+    "after": true,
+    "afterEach": true,
+    "it": true,
+    "expect": true
+  }
+}

@@ -1,8 +1,7 @@
-const Ethername = artifacts.require("./Ethername.sol")
+const Ethername = artifacts.require('./Ethername.sol')
 let commission = 1.02
 
 contract('Constructor', (accounts) => {
-
   let ethername
 
   before(async () => {
@@ -24,11 +23,9 @@ contract('Constructor', (accounts) => {
       assert.equal(_owner, accounts[0])
     }
   })
-
 })
 
 contract('_rawRegister', (accounts) => {
-
   let ethername
 
   before(async () => {
@@ -36,7 +33,6 @@ contract('_rawRegister', (accounts) => {
   })
 
   describe('rawRegister', () => {
-
     it('should work without donation', async () => {
       let _name = 'rawregisterwithoutdonation'
       let _sender = accounts[1]
@@ -75,11 +71,9 @@ contract('_rawRegister', (accounts) => {
       let _balance = await web3.eth.getBalance(ethername.address)
       assert.equal(_balance.toNumber(), _val)
     })
-
   })
 
   describe('validation', () => {
-
     it('should accept only alphabet lowercase and number', async () => {
       let _av69WithDot = 'abcdefghijklmnopqrstu.v6789'
       try {
@@ -88,8 +82,7 @@ contract('_rawRegister', (accounts) => {
             from: accounts[1]
           }
         )
-      }
-      catch (err) {
+      } catch (err) {
         assert.equal(err, 'Error: VM Exception while processing transaction: revert')
       }
       let _owner = await ethername.ownerOf(_av69WithDot)
@@ -113,13 +106,10 @@ contract('_rawRegister', (accounts) => {
       _owner = await ethername.ownerOf(_6v)
       assert.equal(_owner, accounts[1])
     })
-
   })
-
 })
 
 contract('wiper', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -188,12 +178,10 @@ contract('wiper', (accounts) => {
   })
 
   describe('rawWipeAttributes', () => {
-
     let attrs = ['page1', 'page2', 'page3', 'page4', 'page5', 'page6', 'page7', 'page8', 'page9', 'page10', 'page11', 'page12', 'page13', 'page14', 'page15', 'page16', 'page17', 'page18', 'page19', 'page20', 'page21']
     let bytesAttrs = attrs.map((e) => strToBytes(e))
 
     before(async () => {
-
       for (let _attr of attrs) {
         await ethername.rawSetAttribute(web3.fromAscii(name), _attr, strToBytes(_attr),
           {
@@ -203,11 +191,9 @@ contract('wiper', (accounts) => {
         let _res = await ethername.detailsOf(name, _attr)
         assert.equal(_res[2], strToBytes(_attr))
       }
-
     })
 
     it('rawWipeAttributes should not work unless owner', async () => {
-
       try {
         await ethername.rawWipeAttributes(web3.fromAscii(name), bytesAttrs,
           {
@@ -222,11 +208,9 @@ contract('wiper', (accounts) => {
         let _res = await ethername.detailsOf(name, _attr)
         assert.equal(_res[2], strToBytes(_attr))
       }
-
     })
 
     it('rawWipeAttributes should work if owner', async () => {
-
       let _res = await ethername.rawWipeAttributes(web3.fromAscii(name), bytesAttrs,
         {
           from: receiver
@@ -246,13 +230,10 @@ contract('wiper', (accounts) => {
         assert.equal(bytesToStr(_res.logs[0].args.name), name)
       }
     })
-
   })
-
 })
 
 contract('rawTransfer', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -313,11 +294,9 @@ contract('rawTransfer', (accounts) => {
     let _owner = await ethername.ownerOf(_name)
     assert.equal(_owner, _nameOwner)
   })
-
 })
 
 contract('approve', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -368,11 +347,9 @@ contract('approve', (accounts) => {
     let _approved = await ethername.nameToApproved(web3.fromAscii(name))
     assert.notEqual(_approved, _receiver)
   })
-
 })
 
 contract('rawTransferFrom', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -442,11 +419,9 @@ contract('rawTransferFrom', (accounts) => {
     assert.equal(_res.logs[3].args.to, _receiver)
     assert.equal(bytesToStr(_res.logs[3].args.name), name)
   })
-
 })
 
 contract('rawSetPrice', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -498,7 +473,6 @@ contract('rawSetPrice', (accounts) => {
     assert.notEqual(_res[1].toString(), _price)
   })
 
-
   it('should work only if less than 2^128', async () => {
     let _price = String(2 ** 128)
 
@@ -524,11 +498,9 @@ contract('rawSetPrice', (accounts) => {
     _res = await ethername.rawDetailsOf(strToBytes(name), '0x00')
     assert.equal(_res[1].toNumber(), Number(_price) * commission)
   })
-
 })
 
 contract('rawBuy', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -592,11 +564,9 @@ contract('rawBuy', (accounts) => {
     assert.equal(_res.logs[3].args.buyer, _buyer)
     assert.equal(bytesToStr(_res.logs[3].args.name), name)
   })
-
 })
 
 contract('buy should not work', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -664,17 +634,14 @@ contract('buy should not work', (accounts) => {
     let _owner = await ethername.ownerOf(name)
     assert.equal(_owner, owner)
   })
-
 })
 
 contract('rawUseName', (accounts) => {
-
   let ethername
   let names = ['name1', 'name2', 'name3']
   let owner = accounts[1]
   let otherName = 'other'
   let other = accounts[2]
-  let price = web3.toWei(0.1, 'ether')
 
   before(async () => {
     ethername = await Ethername.deployed()
@@ -723,11 +690,9 @@ contract('rawUseName', (accounts) => {
     let _currentName = await ethername.nameOf(owner)
     assert.notEqual(_currentName, otherName)
   })
-
 })
 
 contract('rawSetAttribute', (accounts) => {
-
   let ethername
   let name = 'theuser'
   let owner = accounts[1]
@@ -745,7 +710,6 @@ contract('rawSetAttribute', (accounts) => {
   })
 
   it('should work if owner', async () => {
-    let _receiver = accounts[2]
     let _key = 'page'
     let _value = 'king'
 
@@ -793,11 +757,9 @@ contract('rawSetAttribute', (accounts) => {
     let _res = await ethername.detailsOf(name, 'page')
     assert.notEqual(_res[2], '0x87')
   })
-
 })
 
 contract('rawSendEther', (accounts) => {
-
   let ethername
   let invalidNames = [
     '',
@@ -869,6 +831,7 @@ contract('rawSendEther', (accounts) => {
             value: web3.toWei(0.001, 'ether')
           }
         )
+        assert.isFalse(_res)
         wrongCount++
       } catch (err) {
         wrongCount++
@@ -877,7 +840,6 @@ contract('rawSendEther', (accounts) => {
     }
     assert.equal(wrongCount, invalidNames.length)
   })
-
 })
 
 function bytesToStr (_bytes) {
