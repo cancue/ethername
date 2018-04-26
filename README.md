@@ -1,6 +1,11 @@
 # Ethername Smart Contract ([ethername.co](https://ethername.co))
 > It is designed for any DAPPs to have username feature without extra implementation.
 
+## Examples
+These sample files are offered for tests only. I am not responsible for misused outcomes.
+* examples/ethername.0.1.1.js (example code)
+* examples/ethername.1.0.1.zip (SPA use case)
+
 ## Running the tests
 
 ### Prerequisites
