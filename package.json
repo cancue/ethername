@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "ethername-contract",
+  "version": "1.0.0",
+  "description": "ethername smart contract",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cancue/ethername-contract.git"
+  },
+  "keywords": [
+    "ethereum",
+    "dapp",
+    "solidity"
+  ],
+  "author": "M.H. Kang",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/cancue/ethername-contract/issues"
+  },
+  "homepage": "https://github.com/cancue/ethername-contract#readme"
+}
